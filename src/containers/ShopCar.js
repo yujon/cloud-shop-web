@@ -7,6 +7,8 @@ import {Button,List,InputItem} from 'antd-mobile';
 import {getShopCarCommodityList} from '../actions/user';
 import {setLocalOrderInfo} from '../actions/order';
 
+import {SERVER} from '../constants/common';
+
 class ShopCar extends React.Component{
 
   constructor(props){
@@ -18,7 +20,7 @@ class ShopCar extends React.Component{
   }
 
   componentDidMount(){
-    let userId = sessionStorage.getItem('userId');
+    let userId = localStorage.getItem('userId');
     const {shopCarCommodityList} = this.props;
     let newState = {};
     if(userId){
@@ -114,11 +116,11 @@ class ShopCar extends React.Component{
     return(
         <div style={styles.container}>
           <List style={{backgroundColor:'#fff'}} renderHeader={() => '> 购物车'}>
-          <div style={{backgroundColor:'#ccc',paddingTop:20,paddingLeft:20,
-            display:shopCarCommodityList&&shopCarCommodityList.length?'none':'block'}}>
-              <span>暂无商品，请先去添加商品到购物车再来结算</span>
+            <div style={{backgroundColor:'#ccc',
+              display:shopCarCommodityList&&shopCarCommodityList.length?'none':'block'}}>
+                <span>暂无商品，请先去添加商品到购物车再来结算</span>
             </div>
-          {
+            {
               shopCarCommodityList && shopCarCommodityList.map((shopCarItem,index)=>{
                 const {modelId,buySum} = shopCarItem;
                 const shopInfo = shopCarItem.shopId || {};
@@ -136,18 +138,18 @@ class ShopCar extends React.Component{
                   <div key={index} style={styles.commodityItem} onClick={()=>{this.selectItem(index,curModel['modelPrice'],buySum)}}>
                     <div style={{height:50,display:'flex',flexDirection:'row',alignItems:'center'}}>
                       <i className={tempList[index]&&tempList[index]['checked']?"fa fa-check-circle fa-lg":"fa fa-circle-o fa-lg"} 
-                        style={{marginLeft:10,color:tempList[index]&&tempList[index]['checked']?'red':"#ccc"}}></i>
-                      <i className="fa fa-home fa-lg" style={{marginLeft:10}}></i>
-                      <span style={{marginLeft:10,fontSize:16}}>{shopInfo.shopName}</span>
+                        style={{paddingLeft:10,color:tempList[index]&&tempList[index]['checked']?'red':"#ccc"}}></i>
+                      <i className="fa fa-home fa-lg" style={{paddingLeft:10}}></i>
+                      <span style={{paddingLeft:10,fontSize:16}}>{shopInfo.shopName}</span>
                     </div>
 
                      <div style={{flex:1,height:100,display:'flex',flexDirection:'row',width:'100%'}}>
-                        <div style={{width:100,paddingLeft:10}}>
-                          <img style={{width:90,height:90}} src={curModel['modelImg']} alt=""/>
+                        <div style={{width:100}}>
+                          <img style={{width:90,height:90}} src={`${SERVER}${curModel['modelImg']}`} alt=""/>
                         </div>
 
                         <div style={{flex:3,display:'flex',flexDirection:'row'}}>
-                          <div style={{flex:1,display:'flex',flexDirection:'column',paddingLeft:10}}>
+                          <div style={{flex:1,display:'flex',flexDirection:'column'}}>
                               <div style={{height:30,display:'flex',fontSize:18}}>{commodityInfo['name']}</div>
                               <div style={{flex:1,display:'flex'}}>{curModel['modelType']}</div>
                               <div style={{flex:2,fontSize:14,color:'#aaa'}}>
@@ -190,19 +192,17 @@ class ShopCar extends React.Component{
             }
           </List>
 
-            <div style={{height:70}}></div>
-            <div style={styles.orderFooter}>
-                <div style={styles.footerRightLabel}>
-                  <div style={{display:'flex',flexDirection:'row'}}>
-                    <div>共{this.getSelectedSum()}件商品&nbsp;</div>
-                    <div>总计￥{this.getAllPayMoney()}</div>
-                  </div>
-                  <div style={{display:'flex',flexDirection:'row'}}>（不包括邮费）</div>
-                </div>
-                <div style={styles.footerRightBtn} onClick={this.createOrder}>
-                  去结算
-                </div>
-            </div>
+          <div style={{height:70}}></div>
+          <div style={styles.orderFooter}>
+              <div style={styles.footerRightLabel}>
+                <div>共{this.getSelectedSum()}件商品&nbsp;</div>
+                <div>总计￥{this.getAllPayMoney()}</div>
+                <div style={{display:'flex',flexDirection:'row'}}>（不包括邮费）</div>
+              </div>
+              <div style={styles.footerRightBtn} onClick={this.createOrder}>
+                去结算
+              </div>
+          </div>
                 
         </div>
      )
@@ -219,7 +219,7 @@ const styles = {
    },
    commodityItem:{
     backgroundColor:'#fff',
-    marginBottom:10
+    paddingBottom:10
    },
    orderFooter:{
     position:'fixed',
@@ -233,8 +233,7 @@ const styles = {
     zIndex:1000
    },
    footerRightLabel:{
-    width:150,
-    height:'100%',
+    widht:150,
     display:'flex',
     flexDirection:'column',
     justifyContent:'center',

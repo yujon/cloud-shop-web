@@ -25,7 +25,7 @@ class AddressList extends React.Component {
   }
 
   componentDidMount(){
-    let userId = sessionStorage.getItem('userId');
+    let userId = localStorage.getItem('userId');
     let newState = {};
     if(userId){
       newState['userId'] = userId;

@@ -1,5 +1,5 @@
 import React from 'react';
-// import {SERVER} from '../constants/common';
+import {SERVER} from '../constants/common';
 
 const CountryPicker = ({
     commodityInfo,onSelectCommodity
@@ -8,7 +8,7 @@ const CountryPicker = ({
         
        <div style={{flex:1,display:'flex',flexDirection:'row',width:'100%',padding:10}} onClick={onSelectCommodity}>
            <div style={{flex:1}}>
-			    <img style={{width:120,height:120}} src={commodityInfo['showImgs'][0]} alt=""/>
+			    <img style={{width:120,height:120}} src={`${SERVER}${commodityInfo['showImgs'][0]}`} alt=""/>
            </div>
            <div style={{flex:3,display:'flex',flexDirection:'column',marginLeft:10,paddingTop:10,paddingBottom:10}}>
 				<div style={{flex:3,display:'flex',flex:1}}>{commodityInfo['name']}</div>

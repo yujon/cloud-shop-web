@@ -8,12 +8,13 @@ export function changePhoneNumber(phoneNumber){
 	}
 }
 // 注册
-export function loginUp(phoneCode,phoneNumber,password){
+export function loginUp(phoneCode,phoneNumber,password,callback){
 	return {
 		type:userConf.LOGIN_UP_REQUEST,
 		phoneCode,
 		phoneNumber,
 		password,
+		callback,
 		payload:{
 			loginUpStatus:'doing'
 		}
@@ -74,17 +75,19 @@ export function loginInFail(){
 
 
 // 退出登录
-export function loginOut(){
+export function loginOut(callback){
 	return {
-		type:userConf.LOGIN_OUT_REQUEST
+		type:userConf.LOGIN_OUT_REQUEST,
+		callback
 	}
 }
 
 //获取信息
-export function getUser(userId){
+export function getUser(userId,callback){
 	return {
 		type:userConf.GET_USER_REQUEST,
 		userId,
+		callback
 	}
 }
 
@@ -104,11 +107,12 @@ export function getUserFail(){
 }
 
 //修改信息
-export function updateUser(userId,userInfo){
+export function updateUser(userId,userInfo,callback){
     return {
 		type:userConf.UPDATE_USER_REQUEST,
 		userId,
 		userInfo,
+		callback,
 		payload:{
 			updateUserStatus:'doing',
 		}

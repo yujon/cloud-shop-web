@@ -8,9 +8,6 @@ import {
   } from '../constants/order'
 
 import * as OrderctionCreators from '../actions/order';
-import * as CommonActionCreators from '../actions/common';
-
-
 
 export function* getOrderListByUserId({userId}){
   try {

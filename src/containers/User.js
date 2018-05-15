@@ -6,6 +6,8 @@ import AddressList from './AddressList';
 
 import {getUser} from '../actions/user';
 
+import {SERVER} from '../constants/common';
+
 class User extends React.Component{
 
   constructor(props){
@@ -17,7 +19,7 @@ class User extends React.Component{
   }
 
   componentDidMount() {
-    let userId = sessionStorage.getItem('userId');
+    let userId = localStorage.getItem('userId');
     const {userInfo,history} = this.props;
     if(!userId){
       history.push('/web-loginIn/null')
@@ -101,7 +103,7 @@ class User extends React.Component{
       <div style={styles.container}>
           <List renderHeader={() => '个人中心'} style={{backgroundColor:'#fff'}} >
             <div style={styles.userInfo}>
-               <div><img style={{height:40,widht:40,borderRadius:20}} src={userInfo['img']} alt=""/></div>
+               <div><img style={{height:40,widht:40,borderRadius:20}} src={`${SERVER}${userInfo['img']}`} alt=""/></div>
                <div>{userInfo['name']}</div>
             </div>
           </List>

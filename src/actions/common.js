@@ -1,5 +1,4 @@
 import * as userConf from '../constants/common';
-import {history} from '../history';
 
 export function syncActionCreator(type,payload){
 	return {
@@ -7,11 +6,6 @@ export function syncActionCreator(type,payload){
 		payload:payload,
 	}
 }
-
-export function navigate(routePath){
-    history.push(routePath);
-}
-
 
 //上传文件
 export function uploadFile(file,fileName,callback){

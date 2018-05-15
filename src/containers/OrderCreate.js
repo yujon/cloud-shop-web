@@ -8,6 +8,8 @@ import AddressList from './AddressList';
 import {getUser,removeCommodityListFromShopCar} from '../actions/user';
 import {addOrderList,setLocalOrderPayList} from '../actions/order';
 
+import {SERVER} from '../constants/common';
+
 class OrderCreate extends React.Component{
 
   constructor(props){
@@ -21,7 +23,7 @@ class OrderCreate extends React.Component{
   }
 
   componentDidMount(){
-    let userId = sessionStorage.getItem('userId');
+    let userId = localStorage.getItem('userId');
     const {userInfo,localOrderInfo} = this.props;
     let newState = {};
     if(userId){
@@ -204,7 +206,7 @@ class OrderCreate extends React.Component{
 
                      <div style={{flex:1,height:125,display:'flex',flexDirection:'row',width:'100%'}}>
                        <div style={{width:100,paddingLeft:10}}>
-                          <img style={{width:90,height:90}} src={model['modelImg']} alt=""/>
+                          <img style={{width:90,height:90}} src={`${SERVER}${model['modelImg']}`} alt=""/>
                        </div>
                        <div style={{flex:1,display:'flex',flexDirection:'column',paddingLeft:10}}>
                           <div style={{display:'flex',flex:1,fontSize:18}}>{commodityInfo['name']}</div>
@@ -246,12 +248,9 @@ class OrderCreate extends React.Component{
             <div style={{height:70}}></div>
             <div style={styles.orderFooter}>
                 <div style={styles.footerRightLabel}>
-                  <div style={{display:'flex',flexDirection:'row'}}>
-                    <div>共{allBuySum}件商品&nbsp;</div>
-                    <div>总计￥{allPayMoney}</div>
-                  </div>
+                  <div>共{allBuySum}件商品&nbsp;</div>
+                  <div>总计￥{allPayMoney}</div>
                   <div style={{display:'flex',flexDirection:'row'}}>（已包括邮费）</div>
-
                 </div>
                 <div style={styles.footerRightBtn} onClick={()=>{this.submitOrder(addressItem,priceList)}}>
                   提交订单
@@ -272,7 +271,7 @@ const styles = {
      flexDirection:'column',
      minHeight:document.documentElement.clientHeight,
      width:document.documentElement.clientWidth,
-     backgroundColor:'#fff'
+     backgroundColor:'#eee'
    },
    addressIcon:{
     width:30,

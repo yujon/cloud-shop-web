@@ -58,7 +58,7 @@ class LoginUp extends React.Component{
     const {phoneCode,phoneNumber} = this.state;
     const countryName = this.getCountryName(phoneCode);
     return(
-         <List renderHeader={() => '> 注册微店'} style={styles.container}>
+         <List renderHeader={() => '注册微店'} style={styles.container}>
             <List.Item activeStyle={styles.line}>
                <Picker data={countrySession} cols={1} cascade={true} onOk={(val)=>this.setState({phoneCode:val})}>
                   <List.Item onClick={this.goCountryPicker} >

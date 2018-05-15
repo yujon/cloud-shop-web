@@ -5,6 +5,8 @@ import {Button,List,InputItem} from 'antd-mobile'
 
 import {getOrderListByUserIdAndStatus,setLocalOrderPayList,haveReceiveCommodity,addComment} from '../actions/order'
 
+import {SERVER} from '../constants/common';
+
 class Order extends React.Component{
 
   constructor(props){
@@ -80,8 +82,28 @@ class Order extends React.Component{
       const {orderList} = this.props;
       const {status,commentModal,commentContent,commentGrade} = this.state;
       let priceList = [];
+      let title = "订单列表";
+      switch(parseInt(status)){
+        case 0:
+          title = "代付款的订单";
+          break;
+        case 1:
+          title = "待发货的订单";
+          break;
+        case 2:
+          title = "待收货的订单";
+          break;
+        case 3:
+          title = "待评价的订单";
+          break;
+        case 4:
+          title = "已完成的订单";
+          break;
+      }
       return(
      		<div style={styles.container}>
+          <List style={{flex:1,backgroundColor:'#FFE4B5'}}
+                renderHeader={() => <span style={{fontSize:18,color:'#000'}}>{`${title}`}</span>}>
           {
               orderList.map((orderItem,index)=>{
                 const {shopId,commodityId,modelId,buySum,payMoney,words,addressInfo} = orderItem;
@@ -100,7 +122,7 @@ class Order extends React.Component{
                     </div>
                      <div style={{flex:1,height:80,marginTop:10,display:'flex',flexDirection:'row',width:'100%'}}>
                        <div style={{width:80,paddingLeft:10}}>
-                          <img style={{width:80,height:80}} src={model['modelImg']} alt=""/>
+                          <img style={{width:80,height:80}} src={`${SERVER}${model['modelImg']}`} alt=""/>
                        </div>
                        <div style={{flex:1,display:'flex',flexDirection:'column',paddingLeft:10}}>
                           <div style={{display:'flex',flex:1,fontSize:18}}>{commodityId['name']}</div>
@@ -153,9 +175,10 @@ class Order extends React.Component{
                 )  
               })
           }
-          <div style={{display:orderList.length?'none':'block',position:'absolute',top:0,bottom:0,left:0,right:0,backgroundColor:'#fff'}}>
-              <span  style={{display:'block',textAlign:'center'}}>暂时没有订单哦</span>
-          </div>
+              <div style={{display:orderList.length?'none':'block',position:'absolute',top:0,bottom:0,left:0,right:0,backgroundColor:'#fff'}}>
+                  <span  style={{display:'block',textAlign:'center'}}>暂时没有订单哦</span>
+              </div>
+          </List>
 
           <div style={{backgroundColor:'rgba(0, 0, 0, 0.4)',position:'absolute',top:0,left:0,zIndex:1000,right:0,bottom:0,
                   transition:'opacity 0.5s ease-out',display:commentModal?'block':'none'}}>

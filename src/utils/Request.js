@@ -1,7 +1,9 @@
+import {SERVER} from '../constants/common';
+
 export const request = (url, method,headers, body) => {
   let isOk;
   return new Promise((resolve, reject) => {
-    fetch(url, {
+    fetch(`${SERVER}${url}`, {
       method,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',

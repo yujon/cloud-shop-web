@@ -22,7 +22,7 @@ const Routes = () => {
 	return (
 		<Router history={history}>
             <div>
-                <Route exact path="/" component={Shop}></Route>
+                <Route exact path="/" component={Mall}></Route>
                 <Route exact path="/web-shop/:shopId" component={Shop}></Route>
                 <Route exact path="/web-commodityCate/:shopId" component={CommodityCate}></Route>
                 <Route exact path='/web-commodity/:shopId/:commodityId' component={Commodity}></Route>

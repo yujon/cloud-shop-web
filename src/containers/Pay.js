@@ -17,7 +17,7 @@ class Pay extends React.Component{
 
   componentDidMount() {
     this.customFocusInst.focus();
-    let userId = sessionStorage.getItem('userId');
+    let userId = localStorage.getItem('userId');
     const {payList,history} = this.props;
     if(!payList || payList.length == 0){
       Toast.info('订单已经失效，即将跳转到待支付订单管理页',3);

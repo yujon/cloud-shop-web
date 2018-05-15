@@ -41,7 +41,7 @@ class Commodity extends React.Component{
       alert('找不到commodityId');
       return;
     }
-    let userId = sessionStorage.getItem('userId');
+    let userId = localStorage.getItem('userId');
     let newState = {}
     this.props.getSetting();
     this.props.getShop(shopId)
@@ -87,6 +87,10 @@ class Commodity extends React.Component{
 
   clickCollection = (isCollected) =>{
     const {commodityId,userId,shopId} = this.state;
+    if(!userId){
+      alert('请先登录')
+      return;
+    }
     if(isCollected){
       this.props.removeCollection(userId,'commodity',shopId,commodityId,()=>{
         this.setState({
@@ -261,7 +265,7 @@ class Commodity extends React.Component{
             {items.map((item,index) => (
                 <img
                   key={index}
-                  src={item.image}
+                  src={`${SERVER}${item.image}`}
                   alt={item.title}
                   style={{ display: 'inline-block', width: '100%', height:'200px' }}
                   onLoad={() => {
@@ -318,7 +322,7 @@ class Commodity extends React.Component{
             <Card style={{marginTop:'10px', marginBottom:'10px'}}>
               <Card.Header
                   title={shopName || "未命名"}
-                  thumb={shopImg}
+                  thumb={`${SERVER}${shopImg}`}
                   extra={<div><i className="fa fa-heart" style={{marginRight:3}}></i>{collectionSum}收藏</div>}
                 />
               <Card.Body>
@@ -344,7 +348,7 @@ class Commodity extends React.Component{
                     return (
                       <div style={{flex:1,height:100,marginTop:10,display:'flex',flexDirection:'row',width:'100%'}} key={index}> 
                        <div style={{width:100,paddingLeft:10}}>
-                          <img style={{width:80,height:65}} src={comment['modelImg']} alt=""/>
+                          <img style={{width:80,height:65}} src={`${SERVER}${comment['modelImg']}`} alt=""/>
                           <div style={{display:'flex'}}>型号：{comment['modelType']}</div>
                        </div>
                        <div style={{flex:1,display:'flex',flexDirection:'column',paddingLeft:10}}>
@@ -384,7 +388,7 @@ class Commodity extends React.Component{
 
             <div style={{backgroundColor:'rgba(0, 0, 0, 0.4)',position:'fixed',top:0,left:0,right:0,bottom:0,zIndex:20000,
                     transition:'opacity 0.5s ease-out',display:modelModal?'block':'none'}}>
-              <img style={styles.modelModalImg} src={models && models[modelIndex]?models[modelIndex].modelImg:''}></img>
+              <img style={styles.modelModalImg} src={models && models[modelIndex]?`${SERVER}${models[modelIndex].modelImg}`:''}></img>
               <div style={styles.modelModalMain}>
                 <div style={styles.modelModalHeader}>
                   <div style={styles.modelModalHeaderContent}>
@@ -456,7 +460,9 @@ const styles = {
     bottom:0,
     display:'flex',
     flexDirection:'row',
-    zIndex:10000
+    zIndex:10000,
+    borderTopColor:'#aaa',
+    borderTopWidth:1,
    },
    detail:{
 

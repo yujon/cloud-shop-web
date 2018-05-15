@@ -20,7 +20,7 @@ class LoginIn extends React.Component{
   }
 
   componentWillMount(){
-    let userId = sessionStorage.getItem('userId');
+    let userId = localStorage.getItem('userId');
     const {history,match} = this.props;
     const {fromUrl} = match.params;
     if(userId){
@@ -69,7 +69,7 @@ class LoginIn extends React.Component{
     const {phoneCode,phoneNumber,password} = this.state;
     const countryName = this.getCountryName(phoneCode);
     return(
-         <List renderHeader={() => '> 登录微店'} style={styles.container}>
+         <List renderHeader={() => '登录微店'} style={styles.container}>
             <List.Item activeStyle={styles.line}>
                <Picker data={countrySession} cols={1} cascade={true} onOk={(val)=>this.setState({phoneCode:val})}>
                   <List.Item >

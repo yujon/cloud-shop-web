@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import {List} from 'antd-mobile'
 
 import {getCollectionList,removeCollection} from '../actions/user'; 
 import CommodityItem from '../components/CommodityItem'
@@ -40,10 +41,20 @@ class Collection extends React.Component{
  	render(){
     const {collectionList} = this.props;
     const {type} = this.state;
+    let title = "收藏列表";
+    if(title == 'shop'){
+      title = "店铺收藏列表";
+    }else{
+      title = "商品收藏列表";
+    }
     return(
      	<div >
-          <div style={{display:type=="commodity"?'flex':'none',position:'ansolute',top:0,bottom:0,left:0,right:0}}>
-              <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',backgroundColor:'#fff'}}>
+        <List style={{flex:1,backgroundColor:'#FFE4B5'}}
+                renderHeader={() => <span style={{fontSize:18,color:'#000'}}>{`${title}`}</span>}>
+
+          <div style={{display:type=="commodity"?'flex':'none',position:'absolute',top:0,bottom:0,left:0,right:0}}>
+              <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+                backgroundColor:'#fff'}}>
                  {
                   (type=="commodity") && collectionList.map((collectionItem,index)=>{
                     const commodity = collectionItem.commodityId;
@@ -61,8 +72,10 @@ class Collection extends React.Component{
                   <span  style={{display:'block',textAlign:'center'}}>你还没有收藏商品哦</span>
               </div>
           </div>
+
           <div style={{display:type=="shop"?'flex':'none'}}>
-              <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',backgroundColor:'#fff'}}>
+              <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
+                  backgroundColor:'#fff'}}>
                 {
                   (type=="shop") && collectionList.map((collectionItem,index)=>{
                     const shop = collectionItem.shopId;
@@ -79,6 +92,7 @@ class Collection extends React.Component{
                   <span  style={{display:'block',textAlign:'center'}}>你还没有收藏店铺哦</span>
               </div>
           </div>
+        </List>
       </div>
      )
  	}

@@ -12,10 +12,8 @@ import {
   } from '../constants/user'
 
 import * as UserActionCreators from '../actions/user';
-import * as CommonActionCreators from '../actions/common';
 
-
-export function* loginUp({phoneCode,phoneNumber,password}){
+export function* loginUp({phoneCode,phoneNumber,password,callback}){
   try {
     const jsonStr = JSON.stringify({
       phoneCode:phoneCode,
@@ -27,7 +25,7 @@ export function* loginUp({phoneCode,phoneNumber,password}){
     Toast.hide();
     Toast.success('注册成功',2);
     yield put(UserActionCreators.loginUpSuccess());
-    yield put(CommonActionCreators.navigate('LoginIn')); //跳转
+    callback && callback()
   } catch (error) {
     Toast.hide();
     Toast.fail('注册失败，请重试',2);
@@ -47,10 +45,10 @@ export function* loginIn({phoneCode,phoneNumber,password,callback}){
     Toast.hide();
     const userInfo = data.userInfo;
     try {
-      yield sessionStorage.setItem('userId',userInfo._id);
+      yield localStorage.setItem('userId',userInfo._id);
       Toast.success('登录成功',2);
       yield put(UserActionCreators.loginInSuccess(userInfo));
-      callback && callback(userInfo);
+      callback && callback();
     }catch(error){
       yield put(UserActionCreators.loginInFail());
       Toast.fail('登录失败',2);
@@ -62,9 +60,9 @@ export function* loginIn({phoneCode,phoneNumber,password,callback}){
   }
 }
 
-export function* loginOut(){
+export function* loginOut(callback){
   try {
-    const login = yield sessionStorage.getItem('login');
+    const login = yield localStorage.getItem('login');
     const jsonStr = JSON.stringify({
       userId:login.userId
     });
@@ -72,9 +70,9 @@ export function* loginOut(){
     yield call(Request.request, '/user/loginOut','post',{},jsonStr);
     Toast.hide();
     try {
-      yield sessionStorage.removeItem('userId');
+      yield localStorage.removeItem('userId');
       Toast.success('成功退出登录',2);
-      yield put(CommonActionCreators.navigate('LoginIn')); //跳转
+      callback && callback()
 
     }catch(error){
       Toast.fail('操作失败，请重试',2);
@@ -101,7 +99,7 @@ export function* getUser({userId}){
 }
 
 
-export function* updateUser({userId,userInfo,successNav}){
+export function* updateUser({userId,userInfo,successNav,callback}){
   try {
     const jsonStr = JSON.stringify({
       userId,
@@ -111,7 +109,7 @@ export function* updateUser({userId,userInfo,successNav}){
     const {data} = yield call(Request.request, "/user/update",'post',{},jsonStr);
     Toast.hide()
     yield put(UserActionCreators.updateUserSuccess(userInfo));
-    yield put(CommonActionCreators.navigate('UserInfo')); //跳转
+    callback && callback()
    
   } catch (error) {
     Toast.hide();

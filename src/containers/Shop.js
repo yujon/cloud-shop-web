@@ -39,7 +39,7 @@ class Shop extends React.Component{
       alert('找不到shopId')
       return;
     }
-    let userId = sessionStorage.getItem('userId');
+    let userId = localStorage.getItem('userId');
     let newState = {}
     this.props.getSetting();
     this.props.getShop(shopId)
@@ -116,6 +116,10 @@ class Shop extends React.Component{
 
   clickCollection = (isCollected) =>{
     const {shopId,userId} = this.state;
+    if(!userId){
+      alert('请先登录')
+      return;
+    }
     if(isCollected){
       this.props.removeCollection(userId,'shop',shopId,null,()=>{
         this.setState({
@@ -131,7 +135,7 @@ class Shop extends React.Component{
     }
   }
 
-   gotoShop = () =>{
+  gotoShop = () =>{
     const {history} = this.props;
     const {shopId} = this.state;
     history.push('/web-shop/'+shopId)
@@ -204,7 +208,7 @@ class Shop extends React.Component{
             <Card style={{marginTop:'10px', marginBottom:'10px'}}>
               <Card.Header
                   title={shopName || "未命名"}
-                  thumb={shopImg}
+                  thumb={`${SERVER}${shopImg}`}
                   // extra={<span>{shopPhoneNumber}</span>}s
                 />
               <Card.Body>
@@ -256,7 +260,7 @@ class Shop extends React.Component{
                 </div>
             </Tabs>
            
-            <div style={{position:"absolute",bottom:0,width:"100%"}}>
+            <div style={{position:"fixed",bottom:0,left:0,width:"100%"}}>
               <TabBar unselectedTintColor='#949494' tintColor='red' barTintColor='white'>
                 <TabBar.Item  title='主页' key='home' icon={<i className="fa fa-home fa-lg"></i>}
                   selected={/\/shop/.test(pathname)} selectedIcon={<i className="fa fa-home fa-lg" style={{color:'red'}}></i>} 
